@@ -3,6 +3,9 @@ package me.guillaume.duel;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import me.guillaume.duel.model.Swordsman;
+import me.guillaume.duel.model.Viking;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
