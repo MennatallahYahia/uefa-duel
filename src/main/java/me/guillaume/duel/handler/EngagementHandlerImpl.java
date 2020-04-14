@@ -4,11 +4,13 @@ import me.guillaume.duel.model.Soldier;
 
 public class EngagementHandlerImpl implements EngagementHandler {
 
+	BlowingHandler blowingHandler = new BlowingHandlerImpl();
+
 	@Override
 	public void engage(Soldier first, Soldier second) {
 		while (STILL_ALIVE) {
-			first.hitSoldier(second);
-			second.hitSoldier(first);
+			blowingHandler.handleBlowEquipment(first, second);
+			blowingHandler.handleBlowEquipment(second, first);
 			if (checkSoldierAndMarkIfDead(first) || checkSoldierAndMarkIfDead(second)) {
 				break;
 			}

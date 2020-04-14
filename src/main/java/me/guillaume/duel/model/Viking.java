@@ -1,24 +1,14 @@
 package me.guillaume.duel.model;
 
-import me.guillaume.duel.handler.EngagementHandler;
-import me.guillaume.duel.handler.EngagementHandlerImpl;
+import me.guillaume.duel.enumeration.Equipment;
 
-public class Viking implements Soldier {
+public class Viking extends Soldier {
 
 	private static final int HIT_DAMAGES = 6;
 
-	private int hitPoints;
-	private EngagementHandler engagementHandler;
-
 	public Viking() {
 		super();
-		this.hitPoints = 120;
-		this.engagementHandler = new EngagementHandlerImpl();
-	}
-
-	@Override
-	public int hitPoints() {
-		return hitPoints;
+		hitPoints = 120;
 	}
 
 	@Override
@@ -27,18 +17,8 @@ public class Viking implements Soldier {
 	}
 
 	@Override
-	public void hitSoldier(Soldier soldier) {
-		hitPoints -= soldier.soldierDamagePerHit();
+	public Viking equip(String equipment) {
+		this.equipment = Equipment.valueOf(equipment);
+		return this;
 	}
-
-	@Override
-	public void markSoldierAsDead() {
-		hitPoints = 0;
-	}
-
-	@Override
-	public void engage(Soldier otherSoldier) {
-		engagementHandler.engage(this, otherSoldier);
-	}
-
 }

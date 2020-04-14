@@ -1,24 +1,18 @@
 package me.guillaume.duel.model;
 
-import me.guillaume.duel.handler.EngagementHandler;
-import me.guillaume.duel.handler.EngagementHandlerImpl;
+import me.guillaume.duel.enumeration.Equipment;
 
-public class Swordsman implements Soldier {
+public class Swordsman extends Soldier {
 
 	private static final int HIT_DAMAGES = 5;
+	private static final int MAX_AXE_BLOW = 3;
+	private static final int BUCKLER_TIMES = 2;
 
-	private int hitPoints;
-	private EngagementHandler engagementHandler;
+	private int numberOfAxeBlows;
 
 	public Swordsman() {
 		super();
 		this.hitPoints = 100;
-		this.engagementHandler = new EngagementHandlerImpl();
-	}
-
-	@Override
-	public int hitPoints() {
-		return hitPoints;
 	}
 
 	@Override
@@ -27,17 +21,16 @@ public class Swordsman implements Soldier {
 	}
 
 	@Override
-	public void hitSoldier(Soldier soldier) {
-		hitPoints -= soldier.soldierDamagePerHit();
+	public Swordsman equip(String equipment) {
+		this.equipment = Equipment.valueOf(equipment);
+		return this;
 	}
 
-	@Override
-	public void markSoldierAsDead() {
-		hitPoints = 0;
+	public void incrementNumberOfAxeBlows() {
+		numberOfAxeBlows++;
 	}
 
-	public void engage(Soldier otherSoldier) {
-		engagementHandler.engage(this, otherSoldier);
+	public boolean isMaxNumberOfAxeBlows() {
+		return !(numberOfAxeBlows <= BUCKLER_TIMES * MAX_AXE_BLOW);
 	}
-
 }
