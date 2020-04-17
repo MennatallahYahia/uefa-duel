@@ -4,5 +4,5 @@ import me.guillaume.duel.model.Soldier;
 
 public interface BlowingHandler {
 
-	void handleBlowEquipment(Soldier first, Soldier second);
+	void handleBlow(Soldier first, Soldier second);
 }

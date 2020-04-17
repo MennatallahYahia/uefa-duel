@@ -1,20 +1,22 @@
 package me.guillaume.duel.model;
 
-import me.guillaume.duel.enumeration.Equipment;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.guillaume.duel.handler.EngagementHandler;
 import me.guillaume.duel.handler.EngagementHandlerImpl;
 
 public abstract class Soldier {
+
 	protected EngagementHandler engagementHandler;
+	protected int hitDamages;
 	protected int hitPoints;
-	protected Equipment equipment;
-	protected int equipmentUsage;
+	protected List<Equipment> equipments;
 
 	public Soldier() {
 		super();
-		this.equipment = Equipment.nothing;
-		this.engagementHandler = new EngagementHandlerImpl();
-		this.equipmentUsage = 2;
+		equipments = new ArrayList<>();
+		engagementHandler = new EngagementHandlerImpl();
 	}
 
 	public void markSoldierAsDead() {
@@ -29,36 +31,43 @@ public abstract class Soldier {
 		engagementHandler.engage(this, otherSoldier);
 	}
 
-	public Equipment getEquipment() {
-		return equipment;
+	public List<Equipment> getEquipments() {
+		return equipments;
 	}
 
-	public EngagementHandler getEngagementHandler() {
-		return engagementHandler;
-	}
-
-	public int getHitPoints() {
-		return hitPoints;
-	}
-
-	public int getEquipmentUsage() {
-		return equipmentUsage;
-	}
-
-	public void resetEquipmentUsage() {
-		equipmentUsage = 2;
-	}
-
-	public void decrementEquipmentUsage() {
-		equipmentUsage--;
-	}
-
-	public void getBlowed(Soldier otherSoldier) {
-		this.hitPoints -= otherSoldier.soldierDamagePerHit();
+	public void blows(Soldier otherSoldier) {
+		otherSoldier.hitPoints -= soldierDamagePerHit();
 	}
 
 	public void cancelBlowDamage(Soldier otherSoldier) {
-		this.hitPoints += otherSoldier.soldierDamagePerHit();
+		for (Equipment equip : otherSoldier.equipments) {
+			if (equip instanceof Buckler) {
+				if (equip.getUsageCount() > 1) {
+					otherSoldier.hitPoints += soldierDamagePerHit();
+					equip.decrementUsage();
+				} else {
+					equip.resetUsageCount();
+				}
+			}
+		}
+
+	}
+
+	public boolean checkMaxAxeBlows(Soldier first) {
+		boolean isMax = false;
+		if (first instanceof Swordsman) {
+			((Swordsman) first).incrementNumberOfAxeBlows();
+			isMax = ((Swordsman) first).isMaxNumberOfAxeBlows();
+		}
+		return isMax;
+	}
+
+	public void reduceDeliveredDamage(Soldier otherSoldier) {
+		otherSoldier.hitPoints += 1;
+	}
+
+	public void reduceReceivedDamage() {
+		hitPoints += 3;
 	}
 
 	public abstract Soldier equip(String equipment);

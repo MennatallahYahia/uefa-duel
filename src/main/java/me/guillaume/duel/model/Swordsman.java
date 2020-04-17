@@ -1,10 +1,9 @@
 package me.guillaume.duel.model;
 
-import me.guillaume.duel.enumeration.Equipment;
+import me.guillaume.duel.factory.EquipmentFactory;
 
 public class Swordsman extends Soldier {
 
-	private static final int HIT_DAMAGES = 5;
 	private static final int MAX_AXE_BLOW = 3;
 	private static final int BUCKLER_TIMES = 2;
 
@@ -12,17 +11,18 @@ public class Swordsman extends Soldier {
 
 	public Swordsman() {
 		super();
-		this.hitPoints = 100;
+		hitDamages = 5;
+		hitPoints = 100;
 	}
 
 	@Override
 	public int soldierDamagePerHit() {
-		return HIT_DAMAGES;
+		return hitDamages;
 	}
 
 	@Override
-	public Swordsman equip(String equipment) {
-		this.equipment = Equipment.valueOf(equipment);
+	public Swordsman equip(String equipmentName) {
+		equipments.add(EquipmentFactory.constructEquipment(equipmentName));
 		return this;
 	}
 
@@ -33,4 +33,5 @@ public class Swordsman extends Soldier {
 	public boolean isMaxNumberOfAxeBlows() {
 		return !(numberOfAxeBlows <= BUCKLER_TIMES * MAX_AXE_BLOW);
 	}
+
 }

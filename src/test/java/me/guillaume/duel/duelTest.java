@@ -3,6 +3,7 @@ package me.guillaume.duel;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import me.guillaume.duel.model.Highlander;
 import me.guillaume.duel.model.Swordsman;
 import me.guillaume.duel.model.Viking;
 

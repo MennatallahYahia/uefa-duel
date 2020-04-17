@@ -9,8 +9,8 @@ public class EngagementHandlerImpl implements EngagementHandler {
 	@Override
 	public void engage(Soldier first, Soldier second) {
 		while (STILL_ALIVE) {
-			blowingHandler.handleBlowEquipment(first, second);
-			blowingHandler.handleBlowEquipment(second, first);
+			blowingHandler.handleBlow(first, second);
+			blowingHandler.handleBlow(second, first);
 			if (checkSoldierAndMarkIfDead(first) || checkSoldierAndMarkIfDead(second)) {
 				break;
 			}
